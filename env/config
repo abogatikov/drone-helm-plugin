@@ -1,0 +1,19 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: {{ .Certificate }}
+    server: {{ .APIServer }}
+  name: helm
+contexts:
+- context:
+    cluster: helm
+    namespace: {{ .Namespace }}
+    user: {{ .ServiceAccount }}
+  name: helm
+current-context: "helm"
+kind: Config
+preferences: {}
+users:
+- name: {{ .ServiceAccount }}
+  user:
+    token: {{ .Token }}

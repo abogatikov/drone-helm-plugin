@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Set env
+          run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
+
+      - name: Build image
+          uses: elgohr/Publish-Docker-Github-Action@2.11
+          env:
+            release: ${{ RELEASE_VERSION }}
+          with:
+            dockerfile: Dockerfile
+            name: abogatikov/drone-helm-plugin/drone-helm-plugin
+            registry: docker.pkg.github.com
+            username: abogatikov
+            password: ${{ secrets.GITHUB_TOKEN }}
+            tag_names: true
+            buildargs: release
