@@ -15,7 +15,7 @@ jobs:
         run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
 
       - name: Build image
-        uses: elgohr/Publish-Docker-Github-Action@2.11
+        uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           release: ${{ RELEASE_VERSION }}
         with:
